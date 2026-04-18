@@ -1,4 +1,4 @@
-TRACERS := execve-tracer open-tracer openat-tracer
+TRACERS := execve-tracer open-tracer openat-tracer openat2-tracer
 TRACER_BINS := $(foreach t,$(TRACERS),cmd/$(t)/$(t))
 ANALYSIS_BIN := cmd/analysis/analysis
 
@@ -32,6 +32,10 @@ openat-tracer: $(VMLINUX)
 	go generate ./cmd/openat-tracer/
 	go build -o cmd/openat-tracer/openat-tracer ./cmd/openat-tracer
 
+openat2-tracer: $(VMLINUX)
+	go generate ./cmd/openat2-tracer/
+	go build -o cmd/openat2-tracer/openat2-tracer ./cmd/openat2-tracer
+
 tracers: $(TRACERS)
 
 # --- analysis ---
@@ -51,4 +55,5 @@ clean:
 	rm -f cmd/*/execvetracer_bpf*.go cmd/*/execvetracer_bpf*.o
 	rm -f cmd/*/opentracer_bpf*.go cmd/*/opentracer_bpf*.o
 	rm -f cmd/*/openattracer_bpf*.go cmd/*/openattracer_bpf*.o
+	rm -f cmd/*/openat2tracer_bpf*.go cmd/*/openat2tracer_bpf*.o
 	rm -f $(VMLINUX)
